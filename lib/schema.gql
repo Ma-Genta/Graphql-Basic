@@ -1,0 +1,13 @@
+type Course {  #Es como la tabla 
+    _id: ID
+    title: String
+    teacher: String
+    description: String
+} 
+
+
+
+type Query { #Metodos de la tabla
+    "Trae los cursos"  #Comentarios
+    getCourses: [Course]
+}
