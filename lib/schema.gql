@@ -1,13 +1,13 @@
 type Course {  #Es como la tabla 
-    _id: ID
-    title: String
+    _id: ID!
+    title: String!
     teacher: String
-    description: String
+    description: String!
 } 
-
-
 
 type Query { #Metodos de la tabla
     "Trae los cursos"  #Comentarios
     getCourses: [Course]
+    "Devuelve un solo curso"
+    getCourse(id: ID!): Course #Asi recibimos el curso mediante un id, el ! significa no nulo
 }
