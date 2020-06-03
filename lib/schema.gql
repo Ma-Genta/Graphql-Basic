@@ -3,13 +3,25 @@ type Course {  #Es como la tabla
     title: String!
     teacher: String
     description: String!
+    people: [Student]
 } 
+
+type Student {
+    _id: ID!
+    name: String!
+    email: String!
+}
 
 type Query { #Metodos de la tabla
     "Trae los cursos"  #Comentarios
     getCourses: [Course]
     "Devuelve un solo curso"
     getCourse(id: ID!): Course #Asi recibimos el curso mediante un id, el ! significa no nulo
+    "Trae los estudiantes"  
+    getStudents: [Student]
+    "Devuelve un solo curso"
+    getStudent(id: ID!): Student 
+    
 }
 
 input CourseInput {
@@ -17,8 +29,37 @@ input CourseInput {
     teacher: String
     description: String!
 }
+#Input para la editar cursos
+input CourseEdit {
+    title: String
+    teacher: String
+    description: String
+}
+
+input StudentInput {
+    name: String!
+    email: String!
+}
+
+#Input para la editar estudiantes
+input StudentEdit {
+    name: String
+    email: String
+}
 
 type Mutation {
     "Crea un curso"
     createCourse(input: CourseInput!): Course
+    "Editar un curso"
+    editCourse(_id: ID!, input: CourseEdit): Course
+    "Elimina un curso"
+    deleteCourse(_id: ID!): String
+    "Crea un estudiante"
+    createStudent(input: StudentInput!): Student
+    "Editar un estudiante"
+    editStudent(_id: ID!, input: StudentEdit): Student
+    "Elimina un estudiante"
+    deleteStudent(_id: ID!): String
+    "Agrega estudiantes a un curso"
+    addPeople(courseID: ID!, studentID: ID!): String
 }
