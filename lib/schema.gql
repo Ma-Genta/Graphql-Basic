@@ -1,15 +1,37 @@
+#Valida los tipos de nivel, devuelve un invlido si level no tiene uno de estos 3 valores 
+enum level {
+    principante 
+    intermedio
+    avanzado
+}
+
 type Course {  #Es como la tabla 
     _id: ID!
     title: String!
     teacher: String
     description: String!
     people: [Student]
+    level: level
 } 
 
-type Student {
+interface Person {
     _id: ID!
     name: String!
     email: String!
+}
+
+type Student implements Person {
+    _id: ID!
+    name: String!
+    email: String!
+    avatar: String
+}
+
+type Monitor implements Person {
+    _id: ID!
+    name: String!
+    email: String!
+    phone: String
 }
 
 type Query { #Metodos de la tabla
@@ -18,9 +40,9 @@ type Query { #Metodos de la tabla
     "Devuelve un solo curso"
     getCourse(id: ID!): Course #Asi recibimos el curso mediante un id, el ! significa no nulo
     "Trae los estudiantes"  
-    getStudents: [Student]
+    getPeople: [Person]
     "Devuelve un solo curso"
-    getStudent(id: ID!): Student 
+    getPerson(id: ID!): Person 
     
 }
 
@@ -28,6 +50,7 @@ input CourseInput {
     title: String!
     teacher: String
     description: String!
+    level: level
 }
 #Input para la editar cursos
 input CourseEdit {
@@ -36,15 +59,19 @@ input CourseEdit {
     description: String
 }
 
-input StudentInput {
+input PersonInput {
     name: String!
     email: String!
+    phone: String
+    avatar: String
 }
 
 #Input para la editar estudiantes
-input StudentEdit {
+input PersonEdit {
     name: String
     email: String
+    phone: String
+    avatar: String
 }
 
 type Mutation {
@@ -54,10 +81,10 @@ type Mutation {
     editCourse(_id: ID!, input: CourseEdit): Course
     "Elimina un curso"
     deleteCourse(_id: ID!): String
-    "Crea un estudiante"
-    createStudent(input: StudentInput!): Student
-    "Editar un estudiante"
-    editStudent(_id: ID!, input: StudentEdit): Student
+    "Crea una Persona"
+    createPerson(input: PersonInput!): Person
+    "Editar una Persona"
+    editPerson(_id: ID!, input: PersonEdit): Person
     "Elimina un estudiante"
     deleteStudent(_id: ID!): String
     "Agrega estudiantes a un curso"
